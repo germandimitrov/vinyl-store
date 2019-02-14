@@ -11,7 +11,6 @@ class App extends Component {
     return (
       <React.Fragment>
         <Header />
-        {/* <Home /> */}
         <Footer />
       </React.Fragment>
     );

@@ -17,6 +17,10 @@ class apiRequest {
     }
   }
 
+  async post() {
+
+  }
+
 }
 
 export default new apiRequest();

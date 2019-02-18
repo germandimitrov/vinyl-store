@@ -1,43 +1,107 @@
 import {getRepository, getConnection} from 'typeorm';
-import {Next, Request, Response} from "express";
+import {Request, Response, NextFunction} from "express";
 import { User } from "../entity/User";
 import {sign, TokenExpiredError} from 'jsonwebtoken';
-import { config }  from '../config';
+import { settings } from '../config/settings';
+import encrypt from '../config/encryption';
+import { validationResult } from 'express-validator/check';
 
 class usersController {
 
-  async register(req, res) {
+  constructor() {
+    this.signIn = this.signIn.bind(this);
+    this.register = this.register.bind(this);
+    this.generateSessionJWT = this.generateSessionJWT.bind(this);
+    this.validatePassword = this.validatePassword.bind(this);
+  }
+
+  async getUsers(req: Request, res: Response) {
+    return res.json(
+      await getRepository(User).find()
+    );
+  }
+
+  async register(req: Request, res: Response, next: NextFunction) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
+    }
 
     let user = new User();
+    let salt = encrypt.generateSalt();
     user.firstName = req.body.firstName;
     user.lastName = req.body.lastName;
     user.email = req.body.email;
-    user.email = req.body.email;
-    user.password = req.body.password;
+    user.salt = salt;
+    user.password = encrypt.generateHashedPassword(salt, req.body.password);
 
-    await getRepository(User).save(user);
+    try {
+      const registeredUser = await getRepository(User).save(user);
+      let token = this.generateSessionJWT(registeredUser);
+      if (!token) throw new Error();
+      return res.status(200).json({
+        message: 'Success',
+        token: token,
+        user: user
+      });
+
+    } catch (error) {
+      console.log(error);
+      next(error)
+    }
+
   }
 
-  async signIn(req: Request, res: Response ) {
-    const user: User = await getRepository(User).findOne({
-      email: req.body.email
-    });
+  async signIn(req: Request, res: Response, next: NextFunction) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
+    }
+
+    const user: User = await getRepository(User)
+      .createQueryBuilder('users')
+      .addSelect('users.password')
+      .where({ email: req.body.email })
+      .getOne();
 
     if (!user) {
       return res.status(404).json({
-        message: 'User not found.'
+        errors: [{ msg: 'User Not Found.' }]
       });
     }
 
-    let token = sign({
-      user: user
-    }, config.secretKey, { expiresIn: '1h' });
+    if (!this.validatePassword(user, req.body.password)) {
+      return res.status(404).json({
+        errors: [{ msg: 'Invalid Password.' }]
+      });
+    }
 
-    return res.status(200).json({
-      message: 'Success',
-      token: token,
-      userId: user.id
-    });
+    try {
+      let token = this.generateSessionJWT(user);
+      if (!token) throw new Error();
+
+      return res.status(200).json({
+        message: 'Success',
+        token: token,
+        user: {
+          ...user,
+          password: undefined,
+          salt: undefined
+        }
+      });
+
+    } catch (error) {
+      console.log(error);
+      next(error)
+    }
+  }
+
+  generateSessionJWT(user: User) {
+      return sign({ user: user }, settings.secretKey, { expiresIn: '1h' });
+  }
+
+  validatePassword(user: User, password: string) {
+    return encrypt.generateHashedPassword(user.salt, password) === user.password;
   }
 
 }

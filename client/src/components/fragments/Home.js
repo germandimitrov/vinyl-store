@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import request from '../../helpers/apiRequest';
+import request from '../../services/requestServices';
 
 class Home extends Component {
 
-  componentDidMount() {
-    request.get();
+  async componentDidMount() {
+    let data = await request.get();
+    // console.log(data);
   }
 
   render() {

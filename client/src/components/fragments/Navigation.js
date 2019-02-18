@@ -12,6 +12,8 @@ class Navigation extends Component {
               <li className="nav-link"><Link to="/"> Home </Link></li>
               <li className="nav-link"><Link to="/login"> Login </Link></li>
               <li className="nav-link"><Link to="/register"> Register </Link></li>
+              <li className="nav-link"><Link to="/records"> Records </Link></li>
+              <li className="nav-link"><Link to="/logout"> Logout </Link></li>
             </ul>
           </nav>
         </div>

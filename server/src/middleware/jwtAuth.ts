@@ -1,5 +1,5 @@
 import { verify, TokenExpiredError } from 'jsonwebtoken';
-import { config }from '../config';
+import { settings }from '../config/settings';
 
 export default (req, res, next) => {
   const authHeader: string = req.get('Authorization');
@@ -14,7 +14,7 @@ export default (req, res, next) => {
   let decodedToken: any;
 
   try {
-    decodedToken = verify(token, config.secretKey);
+    decodedToken = verify(token, settings.secretKey);
   } catch (error) {
     return res.status(401).json({
       message: 'Invalid Token ',

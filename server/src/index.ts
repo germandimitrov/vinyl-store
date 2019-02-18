@@ -2,14 +2,17 @@ import "reflect-metadata";
 import {createConnection} from "typeorm";
 import * as express from "express";
 import * as bodyParser from "body-parser";
-import {Request, Response} from "express";
+import {NextFunction, Request, Response} from "express";
 import routes from "./routes";
 import * as cors from "cors";
+import * as passport from 'passport';
 
 createConnection().then(async connection => {
   // create express app
   const app = express();
   app.use(bodyParser.json());
+  app.use(passport.initialize());
+  app.use(passport.session());
 
   const port = 5001;
 
@@ -23,6 +26,7 @@ createConnection().then(async connection => {
   routes(app);
 
   // start express server
+  require('./config/passport')();
   app.listen(port);
 
   console.log(`Express server has started on port ${port}.`);

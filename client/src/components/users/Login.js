@@ -1,64 +1,33 @@
-import React, { Component } from 'react';
-import request from '../../services/requestServices';
+import React from 'react';
 import Error from '../Error';
-import authService from '../../services/authService';
+import withFormHandling from '../hoc/withFormHandling';
 
-class Login extends Component {
+const LoginBase = (props) => {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      password: '',
-      email: ''
-    };
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleSendFormData = this.handleSendFormData.bind(this);
-  }
-
-  handleInputChange(event) {
-    let field = event.target.name;
-    let value = event.target.value;
-    this.setState({
-      [field]: value
-    });
-  }
-
-  async handleSendFormData(event) {
-    event.preventDefault();
-    let response = await request.post('/signin', {}, this.state);
-
-    if (response.errors) {
-      let errors = response.errors.map(e => e.msg);
-      this.setState({
-        errors: errors
-      });
-    } else {
-      let token = response.token;
-      let user = response.user;
-      authService.authenticate(token, user)
-    }
-  }
-
-  render() {
-    return (
-      <div>
-        <form method="POST" onSubmit={this.handleSendFormData}>
-          <div className="form-group">
-            <label htmlFor="exampleInputEmail1">Email address</label>
-            <input type="email" name="email" className="form-control" id="exampleInputEmail1" value={this.state.email} onChange={this.handleInputChange} />
-            <small id="emailHelp" name="email" className="form-text text-muted"></small>
-          </div>
-          <div className="form-group">
-            <label htmlFor="exampleInputPassword1">Password</label>
-            <input type="password" name="password" className="form-control" id="exampleInputPassword1" value={this.state.password} onChange={this.handleInputChange} />
-          </div>
-          <button type="submit" className="btn btn-primary">Submit</button>
-        </form>
-        { this.state.errors ? this.state.errors.map((e, i) => <Error key={i} error={e}/> ) : ''}
-      </div>
-    );
-  }
+  return (
+    <div>
+      <form method="POST" onSubmit={props.handleSendFormData}>
+        <div className="form-group">
+          <label htmlFor="exampleInputEmail1">Email Address</label>
+          <input type="email" name="email" className="form-control" id="exampleInputEmail1" value={props.formState.email} onChange={props.handleInputChange} />
+          <small id="emailHelp" name="email" className="form-text text-muted"></small>
+        </div>
+        <div className="form-group">
+          <label htmlFor="exampleInputPassword1">Password</label>
+          <input type="password" name="password" className="form-control" id="exampleInputPassword1" value={props.formState.password} onChange={props.handleInputChange} />
+        </div>
+        <button type="submit" className="btn btn-primary">Submit</button>
+      </form>
+      { props.formState.errors ? props.formState.errors.map((e, i) => <Error key={i} error={e}/> ) : ''}
+    </div>
+  );
 
 }
+
+const Login = withFormHandling(LoginBase, {
+  password: '',
+  email: '',
+  errors: null
+}, 'login');
 
 export default Login;

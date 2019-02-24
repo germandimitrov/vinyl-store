@@ -1,13 +1,17 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import authService from '../../services/authService';
 
+class Logout extends Component {
 
-class Login extends Component {
-  constructor(props) { }
-
-
+  componentDidMount() {
+    authService.clearSession();
+    this.props.history.push('/');
+  }
 
   render() {
-
+    return (null);
   }
+
 }
+
+export default Logout;

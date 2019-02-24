@@ -1,27 +1,49 @@
+import authServices from './authService';
+
 class requestServices {
   constructor() {
-    this.domain = 'http://localhost:5001';
+    this.domain = 'http://localhost:5001/';
     this.headers =  {
       'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + localStorage.getItem('token')
     }
   }
 
-  async get() {
-    return await this.sendRequest(this.domain, 'GET', this.headers, undefined);
+  setToken(headers) {
+    headers['Authorization'] = 'Bearer ' + localStorage.getItem('token');
   }
 
-  async post(url, headers, payload) {
-    return await this.sendRequest(this.domain + url, 'POST', this.headers, payload)
+  getHeaders() {
+    return this.headers;
+  }
+
+  async get(endpoint) {
+    return await this.sendRequest(this.domain + endpoint, 'GET', this.headers, undefined);
+  }
+
+  async post(endpoint, headers, payload) {
+    return await this.sendRequest(this.domain + endpoint, 'POST', this.headers, payload);
+  }
+
+  async put(endpoint, headers, payload) {
+    return await this.sendRequest(this.domain + endpoint, 'PUT', this.headers, payload);
   }
 
   async sendRequest(url, method, headers, payload) {
     try {
-      let response = await fetch(url, {
+      this.setToken(headers);
+      let rawResponse = await fetch(url, {
         method: method,
         headers: headers,
         body: payload ? JSON.stringify(payload) : undefined
-      })
-      return await response.json();
+      });
+      let response = await rawResponse.json();
+
+      if (response.error && response.error.name.includes('TokenExpiredError')) {
+        authServices.clearSession();
+      }
+
+      return response;
     }
     catch (error) {
       console.log(error);

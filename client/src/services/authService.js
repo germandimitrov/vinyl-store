@@ -1,19 +1,16 @@
 
 class authServices {
-  constructor() {
-
-  }
-
   authenticate(token, user) {
     user = user || null;
-    sessionStorage.setItem('token', token);
+    localStorage.setItem('token', token);
+    console.log(localStorage.getItem('token'));
     if (user) {
-      sessionStorage.setItem('user', user.id)
+      localStorage.setItem('user', user.id)
     }
   }
 
   isAuth() {
-    if (sessionStorage.getItem('token')) {
+    if (localStorage.getItem('token')) {
       return true;
     }
     return false;
@@ -28,8 +25,11 @@ class authServices {
   }
 
   clearSession() {
-    sessionStorage.removeItem('token');
-    sessionStorage.removeItem('user');
+    localStorage.clear();
+  }
+
+  getToken() {
+    return localStorage.getItem('token');
   }
 
 }

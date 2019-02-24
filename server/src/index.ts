@@ -34,7 +34,7 @@ createConnection().then(async connection => {
   app.use((error, req, res, next) => {
     const status = error.statusCode || 500;
     const message = 'this is from general error!';
-    res.status(status).json({ message: message });
+    res.status(status).json({ message: error.message });
     next();
   })
 

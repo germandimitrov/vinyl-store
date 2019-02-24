@@ -1,4 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, BaseEntity, Column } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, BaseEntity, Column, ManyToOne, OneToMany } from "typeorm";
+import { Record } from './Record';
+import { Artist } from "./Artist";
 
 @Entity({name: "users"})
 export class User extends BaseEntity {
@@ -6,10 +8,10 @@ export class User extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({default: null})
   firstName: string;
 
-  @Column()
+  @Column({default: null})
   lastName: string;
 
   @Column()
@@ -18,6 +20,13 @@ export class User extends BaseEntity {
   @Column({ select: false })
   password: string
 
-  @Column()
+  @Column({ select: false })
   salt: string
+
+  @OneToMany(type => Record, records => records.user)
+  records: Record[]
+
+  @OneToMany(type => Artist, artist => artist.user)
+  artist: Artist[]
+
 }

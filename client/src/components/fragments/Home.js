@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import request from '../../services/requestServices';
 
 class Home extends Component {
 
   async componentDidMount() {
-    let data = await request.get();
+    // let data = await request.get();
     // console.log(data);
   }
 

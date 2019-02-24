@@ -3,6 +3,7 @@ import { settings }from '../config/settings';
 
 export default (req, res, next) => {
   const authHeader: string = req.get('Authorization');
+  console.log(authHeader);
 
   if (!authHeader) {
     return res.status(401).json({
@@ -11,13 +12,14 @@ export default (req, res, next) => {
   }
 
   let token = authHeader.split(' ').pop();
+
   let decodedToken: any;
 
   try {
     decodedToken = verify(token, settings.secretKey);
   } catch (error) {
     return res.status(401).json({
-      message: 'Invalid Token ',
+      message: 'Invalid Token',
       error: error
     });
   }
@@ -25,7 +27,7 @@ export default (req, res, next) => {
   if (!decodedToken) {
     return res.status(401).json({
       message: 'Not Authenticated.',
-    })
+    });
   }
 
   req.user = decodedToken.user;

@@ -9,7 +9,7 @@ import { validationResult } from 'express-validator/check';
 class usersController {
 
   constructor() {
-    this.signIn = this.signIn.bind(this);
+    this.login = this.login.bind(this);
     this.register = this.register.bind(this);
     this.generateSessionJWT = this.generateSessionJWT.bind(this);
     this.validatePassword = this.validatePassword.bind(this);
@@ -22,11 +22,6 @@ class usersController {
   }
 
   async register(req: Request, res: Response, next: NextFunction) {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(422).json({ errors: errors.array() });
-    }
-
     let user = new User();
     let salt = encrypt.generateSalt();
     user.firstName = req.body.firstName;
@@ -47,20 +42,16 @@ class usersController {
 
     } catch (error) {
       console.log(error);
-      next(error)
+      next(error);
     }
-
   }
 
-  async signIn(req: Request, res: Response, next: NextFunction) {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(422).json({ errors: errors.array() });
-    }
-
+  async login(req: Request, res: Response, next: NextFunction) {
     const user: User = await getRepository(User)
       .createQueryBuilder('users')
-      .addSelect('users.password')
+      .addSelect([
+        'users.password', 'users.salt'
+      ])
       .where({ email: req.body.email })
       .getOne();
 
@@ -92,12 +83,14 @@ class usersController {
 
     } catch (error) {
       console.log(error);
-      next(error)
+      next(error);
     }
   }
 
   generateSessionJWT(user: User) {
-      return sign({ user: user }, settings.secretKey, { expiresIn: '1h' });
+    return sign({ user: user }, settings.secretKey, {
+      expiresIn: '1m'
+    });
   }
 
   validatePassword(user: User, password: string) {

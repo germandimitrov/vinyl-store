@@ -1,7 +1,6 @@
 import {getRepository, getConnection} from 'typeorm';
 import {Request, Response, NextFunction} from "express";
 import { Record } from "../entity/Record";
-import { Artist } from '../entity/Artist';
 
 class recordsController {
 
@@ -35,7 +34,8 @@ class recordsController {
 
   async getSingleRecord(req: Request, res: Response, next: NextFunction) {
     try {
-      const record = await getRepository(Record).findOne(req.params.id);
+      const record = await getRepository(Record).findOne({ where: { id: req.params.id }, relations: ['artists'] });
+
       return res.status(200).json(record);
     } catch (error) {
       console.log(error);
@@ -43,6 +43,7 @@ class recordsController {
   }
 
   async updateRecord(req: Request, res: Response, next: NextFunction) {
+
     let record = await getRepository(Record).findOne(req.params.id);
     record = req.body;
     record.artists = req.body.artists.map(a => ({ id: a.value }));

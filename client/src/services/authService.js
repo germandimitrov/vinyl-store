@@ -1,11 +1,17 @@
 
 class authServices {
+
   authenticate(token, user) {
     user = user || null;
     localStorage.setItem('token', token);
-    console.log(localStorage.getItem('token'));
+
     if (user) {
-      localStorage.setItem('user', user.id)
+      localStorage.setItem('userId', user.id);
+      localStorage.setItem('username', user.username);
+      if (user.role && user.roles.length ) {
+        let role = user.roles.find(e => e.name === 'Admin');
+        localStorage.setItem('role', role.name);
+      }
     }
   }
 
@@ -14,6 +20,10 @@ class authServices {
       return true;
     }
     return false;
+  }
+
+  isAdmin() {
+    return (localStorage.getItem('role') === 'Admin');
   }
 
   requireAuth(nextState, replace) {
@@ -30,6 +40,14 @@ class authServices {
 
   getToken() {
     return localStorage.getItem('token');
+  }
+
+  getUserId() {
+    return localStorage.getItem('userId')
+  }
+
+  getUsername() {
+    return localStorage.getItem('username')
   }
 
 }

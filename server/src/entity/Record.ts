@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, BaseEntity, Column, JoinTable, RelationId, JoinColumn, ManyToMany, OneToMany, ManyToOne } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, BaseEntity, Column, ManyToMany, ManyToOne, CreateDateColumn, UpdateDateColumn } from "typeorm";
 import { Artist } from './Artist';
 import { User } from "./User";
 
@@ -23,10 +23,13 @@ export class Record extends BaseEntity {
   @ManyToOne(type => User, user => user.records)
   user: User
 
-  @RelationId((record: Record) => record.artists)
-  artistsIds: number[]
-
   @ManyToMany(type => Artist, artist =>  artist.records)
   artists: Artist[]
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
 
 }

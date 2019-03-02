@@ -1,6 +1,8 @@
-import { Entity, PrimaryGeneratedColumn, BaseEntity, Column, ManyToOne, OneToMany } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, BaseEntity, Column, OneToMany, CreateDateColumn, UpdateDateColumn } from "typeorm";
 import { Record } from './Record';
 import { Artist } from "./Artist";
+import { Vote } from "./Vote";
+import { Role } from './Role';
 
 @Entity({name: "users"})
 export class User extends BaseEntity {
@@ -9,13 +11,31 @@ export class User extends BaseEntity {
   id: number;
 
   @Column({default: null})
+  username: string;
+
+  @Column({default: null})
   firstName: string;
 
   @Column({default: null})
   lastName: string;
 
-  @Column()
+  @Column({default: null})
   email: string;
+
+  @Column({default: null})
+  address: string;
+
+  @Column({default: null})
+  phone: number;
+
+  @Column({default: null})
+  rating: number
+
+  @Column({default: null})
+  active: boolean
+
+  @Column({default: null })
+  picture: string;
 
   @Column({ select: false })
   password: string
@@ -26,7 +46,22 @@ export class User extends BaseEntity {
   @OneToMany(type => Record, records => records.user)
   records: Record[]
 
+  @OneToMany(type => Role, role => role.user)
+  roles: Role[]
+
   @OneToMany(type => Artist, artist => artist.user)
   artist: Artist[]
+
+  @OneToMany(type => Vote, Vote => Vote.rater)
+  rater: Vote[]
+
+  @OneToMany(type => Vote, Vote => Vote.rated)
+  rated: Vote[]
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
 
 }

@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, BaseEntity, Column, JoinTable, ManyToMany, ManyToOne } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, BaseEntity, Column, JoinTable, ManyToMany, ManyToOne, CreateDateColumn, UpdateDateColumn } from "typeorm";
 import { Record } from './Record';
 import { User } from './User';
 
@@ -17,5 +17,11 @@ export class Artist extends BaseEntity {
   @ManyToMany(type => Record, record =>  record.artists)
   @JoinTable({name: 'artists_records'})
   records: Record[]
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
 
 }

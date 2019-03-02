@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import authService from '../../services/authService';
 import request from '../../services/requestServices';
+import { toast } from 'react-toastify';
+
 
 const withFormHandling = (WrappedComponent, initialState, endpoint) => {
   return class extends Component {
@@ -9,6 +11,8 @@ const withFormHandling = (WrappedComponent, initialState, endpoint) => {
 
       this.state = initialState;
       this.endpoint = endpoint;
+
+      this.errors = [];
 
       this.handleInputChange = this.handleInputChange.bind(this);
       this.handleSendFormData = this.handleSendFormData.bind(this);
@@ -27,6 +31,7 @@ const withFormHandling = (WrappedComponent, initialState, endpoint) => {
       this.setState({
         [field]: value
       });
+      // console.log(this.state);
     }
 
     async handleSendFormData(event) {
@@ -37,8 +42,8 @@ const withFormHandling = (WrappedComponent, initialState, endpoint) => {
         let errors = response.errors.map(e => e.msg);
         this.setState({
           errors: errors
-        });
-      } 
+        },() => (this.state.errors.map(e => toast.error(e))));
+      }
       else {
         // @TODO needs to be redone
         if (this.endpoint.includes('register') || this.endpoint.includes('login')) {
@@ -56,7 +61,6 @@ const withFormHandling = (WrappedComponent, initialState, endpoint) => {
     render() {
       return <WrappedComponent
         formState={this.state}
-        {...this.state}
         handleInputChange={this.handleInputChange}
         handleSendFormData={this.handleSendFormData}
         handleSelectChange={this.handleSelectChange}

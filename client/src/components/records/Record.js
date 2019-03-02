@@ -1,26 +1,25 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import './../../css/Record.css';
 
-const record = ({ records }) => (
-  <>
-    {records.map(record => (
-      <div className="col-lg-4 col-md-6 mb-4" key={record.id}>
-        <div className="card h-100">
-          <Link className="card-img-top" to={'/records/' + record.id}> <img src="http://placehold.it/350x40" alt="vinyl" /> </Link>
-          <div className="card-body">
-            <h4 className="card-title">
-              <Link to={'/records/' + record.id}> {record.name}</Link>
-            </h4>
-              <h5>{record.price}</h5>
-              <p className="card-text">{record.description}</p>
-          </div>
-          <div className="card-footer">
-            <small className="text-muted">★ ★ ★ ★ ☆</small>
-          </div>
-        </div>
+const Record = (props) => (
+  (
+    <div className="col-md-4 mb-5">
+    <div className="card h-100">
+        <img className="card-img-top" src={props.picture} alt="" />
+        <div className="card-body">
+          <h4 className="card-title"><Link to={'/records/' + props.id}> {props.name}</Link></h4>
+          <h5 className="card-title">{props.price}</h5>
+          <p className="card-text">{props.description}</p>
+          <p className="card-text">Posted by <b> <Link to={'/user/' + props.userId}> {props.username}</Link> </b> </p>
       </div>
-    ))}
-    </>
-);
+      <div className="card-footer">
+        <a href="#" className="btn btn-primary">Find Out More!</a>
+      </div>
+      </div>
+    </div>
+  )
+)
 
-export default record;
+
+export default Record;

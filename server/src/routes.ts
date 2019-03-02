@@ -16,10 +16,36 @@ export default (app: any) => {
     usersController.register
   );
 
+  app.get('/user/:id',
+    usersController.getProfile
+  );
+
   app.post('/login',
     validationCheck.login,
     validate,
     usersController.login
+  );
+
+  app.post('/user/rate',
+    jwtAuth,
+    validationCheck.rate,
+    validate,
+    usersController.rate
+  );
+
+  app.get('/user/vote/:raterId/:ratedId',
+    jwtAuth,
+    usersController.getVote
+  );
+
+  app.get('/users',
+    jwtAuth,
+    usersController.getActiveUsers
+  );
+
+  app.get('/user/:id/changestatus',
+    jwtAuth,
+    usersController.changeUserStatus
   );
 
   // records

@@ -3,7 +3,6 @@ import { settings }from '../config/settings';
 
 export default (req, res, next) => {
   const authHeader: string = req.get('Authorization');
-  console.log(authHeader);
 
   if (!authHeader) {
     return res.status(401).json({

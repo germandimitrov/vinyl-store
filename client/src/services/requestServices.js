@@ -37,6 +37,11 @@ class requestServices {
         headers: headers,
         body: payload ? JSON.stringify(payload) : undefined
       });
+
+      // if (!rawResponse.ok) {
+      //   throw new Error('Something went wrong!');
+      // }
+
       let response = await rawResponse.json();
 
       if (response.error && response.error.name.includes('TokenExpiredError')) {
@@ -46,6 +51,7 @@ class requestServices {
       return response;
     }
     catch (error) {
+      console.log('Exception!');
       console.log(error);
     }
   }

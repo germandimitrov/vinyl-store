@@ -1,25 +1,54 @@
 import React from 'react';
 import Error from '../Error';
 import withFormHandling from '../hoc/withFormHandling';
+import '../../index.css';
+import Heading from '../fragments/Heading';
+import Footer from '../fragments/Footer';
 
 const LoginBase = (props) => {
 
   return (
-    <div>
+    <>
+    <div className="container">
+      <Heading heading='Login'/>
       <form method="POST" onSubmit={props.handleSendFormData}>
-        <div className="form-group">
+      <div className="control-group">
+        <div className="form-group floating-label-form-group controls mb-0 pb-2">
           <label htmlFor="exampleInputEmail1">Email Address</label>
-          <input type="email" name="email" className="form-control" id="exampleInputEmail1" value={props.formState.email} onChange={props.handleInputChange} />
+            <input
+              type="email"
+              name="email"
+              className="form-control"
+              id="exampleInputEmail1"
+              placeholder="Username"
+              value={props.formState.email}
+              onChange={props.handleInputChange}
+            />
           <small id="emailHelp" name="email" className="form-text text-muted"></small>
         </div>
-        <div className="form-group">
+      </div>
+      <div className="control-group">
+        <div className="form-group floating-label-form-group controls mb-0 pb-2">
           <label htmlFor="exampleInputPassword1">Password</label>
-          <input type="password" name="password" className="form-control" id="exampleInputPassword1" value={props.formState.password} onChange={props.handleInputChange} />
+            <input
+              type="password"
+              name="password"
+              className="form-control"
+              id="exampleInputPassword1"
+              placeholder="Password"
+              value={props.formState.password}
+              onChange={props.handleInputChange}
+            />
         </div>
-        <button type="submit" className="btn btn-primary">Submit</button>
+      </div>
+      <br />
+      <button type="submit" className="btn btn-primary btn-xl">Submit</button>
       </form>
-      { props.formState.errors ? props.formState.errors.map((e, i) => <Error key={i} error={e}/> ) : ''}
+      {/* { props.formState.errors ? props.formState.errors.map((e, i) => <Error key={i} error={e}/> ) : ''} */}
     </div>
+    <br />
+    <Footer />
+    </>
   );
 
 }

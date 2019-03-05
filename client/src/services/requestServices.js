@@ -4,8 +4,7 @@ class requestServices {
   constructor() {
     this.domain = 'http://localhost:5001/';
     this.headers =  {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('token')
+      'Content-Type': 'application/json'
     }
   }
 
@@ -21,12 +20,16 @@ class requestServices {
     return await this.sendRequest(this.domain + endpoint, 'GET', this.headers, undefined);
   }
 
-  async post(endpoint, headers, payload) {
+  async post(endpoint, payload = {}) {
     return await this.sendRequest(this.domain + endpoint, 'POST', this.headers, payload);
   }
 
-  async put(endpoint, headers, payload) {
+  async put(endpoint, payload = {}) {
     return await this.sendRequest(this.domain + endpoint, 'PUT', this.headers, payload);
+  }
+
+  async delete(endpoint, payload = {}) {
+    return await this.sendRequest(this.domain + endpoint, 'DELETE', this.headers, payload);
   }
 
   async sendRequest(url, method, headers, payload) {

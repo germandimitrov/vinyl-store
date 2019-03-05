@@ -12,6 +12,9 @@ export class Record extends BaseEntity {
   name: string;
 
   @Column({default: null})
+  artistName: string;
+
+  @Column({default: null})
   description: string;
 
   @Column({default: null})

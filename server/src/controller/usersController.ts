@@ -74,6 +74,12 @@ class usersController {
       });
     }
 
+    if (!user.active) {
+      return res.status(403).json({
+        errors: [{ msg: 'Your account has been suspended due to low rating.' }]
+      });
+    }
+
     try {
       let token = this.generateSessionJWT(user);
       if (!token) throw new Error();

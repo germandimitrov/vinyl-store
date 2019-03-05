@@ -8,6 +8,26 @@
  @import url('https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic');
  @import url('https://use.fontawesome.com/releases/v5.7.2/css/all.css');
 
+ * {
+  box-sizing: border-box;
+ }
+ *:before,
+ *:after {
+  box-sizing: border-box;
+ }
+
+ html, body {
+  height: 100%;
+  position: relative;
+ }
+
+ .wrapper {
+  min-height: 100vh; /* will cover the 100% of viewport */
+  overflow: hidden;
+  display: block;
+  position: relative;
+  padding-bottom: 72px
+ }
 
  body {
     font-family: 'Lato';
@@ -23,6 +43,12 @@
     font-family: 'Montserrat';
   }
 
+  .copyright {
+    background-color: #2C3E50;
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+  }
   hr.star-light,
   hr.star-dark {
     max-width: 15rem;
@@ -177,8 +203,9 @@
     }
   }
 
+  /* LOGO */
   header.masthead {
-    padding-top: calc(6rem + 72px);
+    padding-top: calc(6rem);
     padding-bottom: 6rem;
   }
 
@@ -192,9 +219,10 @@
     font-family: 'Lato';
   }
 
+  /* LOGO */
   @media (min-width: 992px) {
     header.masthead {
-      padding-top: calc(6rem + 106px);
+      padding-top: calc(2rem);
       padding-bottom: 6rem;
     }
     header.masthead h1 {
@@ -329,15 +357,8 @@
     border-top: 1px solid #e9ecef;
   }
 
-  .footer {
-    padding-top: 5rem;
-    padding-bottom: 5rem;
-    background-color: #2C3E50;
-    color: #fff;
-  }
-
   .copyright {
-    background-color: #1a252f;
+    background-color: #2C3E50;
   }
 
   a {
@@ -396,3 +417,30 @@
     margin-top: -30px !important
   }
 
+  .login-name {
+    text-transform: lowercase;
+  }
+
+  .logout-link::before {
+    /* pointer-events: none; */
+    content: "|";
+    color: white !important;
+    margin-left: -13px;
+    margin-right: 7px;
+  }
+
+  .push-img-up {
+    padding-top: 50px;
+  }
+
+  .push-left {
+    margin-left: 15px;
+  }
+
+  .show-phone {
+    margin-top: 20px;
+  }
+
+  .details {
+    margin-bottom: 100px;
+  }

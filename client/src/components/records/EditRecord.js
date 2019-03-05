@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import RecordForm from '../forms/RecordForm';
 import request from '../../services/requestServices';
+import Heading from '../fragments/Heading';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'
 
 class EditRecord extends Component {
 
@@ -38,13 +41,18 @@ class EditRecord extends Component {
 
   async handleSendFormData(event) {
     event.preventDefault();
-    let response = await request.put(this.endpoint, {}, this.state);
+    let response = await request.put(this.endpoint, this.state);
 
-    if (response.errors) {
+    if (response.errors && response.errors.length && response.errors[0].msg) {
       let errors = response.errors.map(e => e.msg);
       this.setState({
         errors: errors
+      }, () => {
+        return this.state.errors.map(e => (e) ? toast.error(e) : '');
       });
+    } else {
+      toast.success('Record has been edited!');
+      this.props.history.push('/records');
     }
   }
 
@@ -62,13 +70,17 @@ class EditRecord extends Component {
   }
 
   render() {
-    return <RecordForm
-      handleSendFormData={this.handleSendFormData}
-      handleInputChange={this.handleInputChange}
-      handleSelectChange={this.handleSelectChange}
-      formState={this.state}
-      {...this.state}
-    />
+    return (
+      <>
+        <Heading heading="Edit Recrod" />
+        <RecordForm
+          handleSendFormData={this.handleSendFormData}
+          handleInputChange={this.handleInputChange}
+          handleSelectChange={this.handleSelectChange}
+          {...this.state}
+        />
+      </>
+    )
   }
 }
 

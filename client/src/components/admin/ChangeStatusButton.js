@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
-import request from '../../../services/requestServices';
+import request from '../../services/requestServices';
 
 class ChangeStatusButton extends Component {
 
   constructor(props) {
     super(props);
 
-    if (this.props.status == true) {
-      this.label = 'Activate';
-      this.className = 'btn btn-success';
-    }
-    else {
+    if (this.props.status === true) {
       this.label = 'Deactivate';
       this.className = 'btn btn-danger';
+    }
+    else {
+      this.label = 'Activate';
+      this.className = 'btn btn-success';
     }
 
     this.state = {
@@ -28,14 +28,14 @@ class ChangeStatusButton extends Component {
     try {
       await request.get(`user/${userId}/changestatus`);
 
-      if (status == true) {
+      if (status === true) {
         status = false;
-        this.label = 'Deactivate';
-        this.className = 'btn btn-danger';
+        this.label = 'Activate';
+        this.className = 'btn btn-success';
       } else {
         status = true;
-        this.label = 'Active';
-        this.className = 'btn btn-success';
+        this.label = 'Deactivate';
+        this.className = 'btn btn-danger';
       }
 
       this.setState({
@@ -47,7 +47,6 @@ class ChangeStatusButton extends Component {
     } catch (error) {
       console.log(error);
     }
-
   }
 
   render() {

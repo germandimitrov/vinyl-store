@@ -56,7 +56,7 @@ class Upvote extends Component {
     let rater = authService.getUserId();
     let rated = userId;
     try {
-      return await request.get(`user/vote/${rater}/${rated}`, {}, {});
+      return await request.get(`user/vote/${rater}/${rated}`);
     } catch (error) {
       console.log(error);
     }
@@ -64,7 +64,7 @@ class Upvote extends Component {
 
   async updateRating(userId, newRating) {
     try {
-      return await request.post('user/rate', {}, {
+      return await request.post('user/rate', {
         rater: authService.getUserId(),
         rated: userId,
         rating: newRating
@@ -77,9 +77,9 @@ class Upvote extends Component {
   render() {
     return (
       <>
-        <span onClick={() => { this.changeRate(true) } }> <FontAwesomeIcon icon={faThumbsUp} size="2x" color="green"/> </span>
-        <span> {this.state.rating} </span>
-        <span onClick={() => { this.changeRate(false)  } } > <FontAwesomeIcon icon={faThumbsDown} size="2x" color="red"/> </span>
+        <span className="upvote-icon" onClick={() => { this.changeRate(true) } }> <FontAwesomeIcon icon={faThumbsUp} size="2x" color="#55BD9C"/> </span>
+        <span className="rating-number"> {this.state.rating} </span>
+        <span onClick={() => { this.changeRate(false)  } } > <FontAwesomeIcon icon={faThumbsDown} size="2x" color="#DD725F"/> </span>
       </>
     );
   }

@@ -9,78 +9,51 @@ import Logout from '../components/users/Logout';
 import AddRecord from './records/AddRecord';
 import EditRecord from './records/EditRecord';
 import Profile from '../components/users/Profile';
-import AdminList from '../components/users/AdminList';
-// temp
-import Artist from './forms/ArtistForm';
-import Heading from './fragments/Heading';
-import Footer from './fragments/Footer';
+import AdminList from '../components/admin/AdminList';
+import Details from '../components/records/Details';
 
 const Routes = () => {
 
   let isAuth = authService.isAuth();
   let isAdmin = authService.isAdmin();
+  let path = '/login';
 
   return <React.Fragment>
     <Switch>
+      {/* Public Routes */}
       <Route exact path='/' component={Home} />
       <Route path='/login' component={Login} />
       <Route path='/register' component={Register} />
       <Route path='/logout' component={Logout} />
 
-      <Route exact path='/records' render={() => (
-        isAuth ? (
-          <>
-            <Heading heading={'Records'}/>
-            <RecordList loadRecords={true} />
-            <Footer />
-          </>
-        ) : (
-          <Redirect to='/' />
-        )
-      )} />
+      {/* Private Routes */}
+      <Route exact path='/records' render={(props) =>
+        isAuth ? <RecordList {...props} loadRecords={true} /> : <Redirect to={path} />
+      }/>
 
-      <Route exact path='/users' render={() => (
-        isAdmin ? (
-          <AdminList />
-        ) : (
-          <Redirect to='/' />
-        )
-      )} />
+      <Route path='/user/:id?' render={(props) =>
+        isAuth ? <Profile {...props} /> : <Redirect to={path} />
+      }/>
 
-      <Route  path='/user/:id?' render={(props) => (
-        isAuth ? (
-          <Profile {...props} />
-        ) : (
-          <Redirect to='/' />
-        )
-      )} />
+      <Route exact path='/create' render={(props) =>
+        isAuth ? <AddRecord {...props} /> : <Redirect to={path} />
+      }/>
 
-      <Route exact path='/create' render={(props) => (
-        isAuth ? (
-          <AddRecord {...props} />
-        ) : (
-          <Redirect to='/' />
-        )
-      )} />
 
-      <Route exact path='/artist/create' render={(props) => (
-        isAuth ? (
-          <Artist {...props} />
-        ) : (
-          <Redirect to='/' />
-        )
-      )} />
+      <Route exact path='/records/:id' render={(props) =>
+        isAuth ? <EditRecord {...props} /> : <Redirect to={path} />
+      }/>
 
-      <Route exact path='/records/:id' render={(props) => (
-        isAuth ? (
-          <EditRecord {...props} />
-        ) : (
-          <Redirect to='/' />
-        )
-      )} />
+      <Route exact path='/records/:id/details' render={(props) =>
+        isAuth ? <Details {...props} /> : <Redirect to={path} />
+      }/>
 
-      <Route component=
-          {() => (<div> Page not found </div>)} />
+      {/* Admin */}
+      <Route exact path='/users' render={() =>
+        isAdmin ? <AdminList /> : <Redirect to='/' />
+      }/>
+
+      <Route component={() => (<div> Page not found </div>)} />
     </Switch>
   </React.Fragment>
 };

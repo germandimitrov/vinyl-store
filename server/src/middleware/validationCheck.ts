@@ -18,7 +18,8 @@ const validate = {
     check('email', 'Invalid Email').isEmail(),
   ],
   record : [
-    check('name', 'Name cannot be empty.').trim().isLength({ min: 1 }),
+    check('name', 'Record Name cannot be empty.').trim().isLength({ min: 1 }),
+    check('artistName', 'Artist Name cannot be empty.').trim().isLength({ min: 1 }),
     check('description', 'Description cannot be empty.').trim().isLength({ min: 1 }),
     check('price', 'Price should be a number.').trim().isNumeric(),
   ],

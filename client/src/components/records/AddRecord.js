@@ -2,7 +2,7 @@ import React from 'react';
 import withFormHandling from '../hoc/withFormHandling';
 import RecordForm from '../forms/RecordForm';
 import Heading from '../fragments/Heading';
-import Footer from '../fragments/Footer';
+import ArtistForm from '../forms/ArtistForm';
 
 const AddRecordBase = (props) => {
   return (
@@ -14,7 +14,6 @@ const AddRecordBase = (props) => {
         handleSelectChange={props.handleSelectChange}
         formState={props.formState}
       />
-      <Footer />
     </>
   );
 }

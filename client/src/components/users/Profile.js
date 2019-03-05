@@ -55,7 +55,7 @@ class Profile extends Component {
             <div className="floated profile-stat rating" id="num_following"> <br />
               {this.userId !== authService.getUserId() ?
               <Upvote rating={this.state.user.rating} userId={this.userId} />
-              : this.state.user.rating
+              : <span className="rating-number"> {this.state.user.rating} </span>
               }
             </div>
             <div className="floated profile-stat phone" id="num_followers"><br />{this.state.user.phone}</div>
@@ -63,7 +63,6 @@ class Profile extends Component {
         </div>
         <RecordList records={this.state.records} loadRecords={false} />
       </div>
-      <Footer />
       </>
     );
   }

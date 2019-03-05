@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Error from '../Error';
 import '../../index.css';
 import request from '../../services/requestServices';
 import AdminListRow from './AdminListRow'
@@ -24,12 +23,10 @@ class AdminList extends Component {
       });
     } catch (error) {
       console.log(error);
-
     }
   }
 
   refreshRow(refresh) {
-    // console.log(refresh);
     this.setState({
       refreshRow:refresh
     })
@@ -37,7 +34,7 @@ class AdminList extends Component {
 
   render() {
     if (!this.state.users.length) {
-      return null;
+      return <div>No users</div>;
     }
 
     return (
@@ -46,7 +43,7 @@ class AdminList extends Component {
           <thead>
             <tr>
               <th scope="col">#</th>
-              <th scope="col">username</th>
+              <th scope="col">Username</th>
               <th scope="col">Email</th>
               <th scope="col">Address</th>
               <th scope="col">Phone</th>
@@ -64,7 +61,6 @@ class AdminList extends Component {
                 />
               ))
             }
-
           </tbody>
         </table>
       </div>

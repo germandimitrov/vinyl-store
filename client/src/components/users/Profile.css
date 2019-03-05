@@ -95,6 +95,22 @@
   .phone::before {
     content: "phone";
   }
+
+  .rating {
+    margin-top: -16px;
+  }
+
+  .rating-number {
+    margin-left: 6px;
+    margin-right: 6px;
+    font-size: 24px;
+    /* color: #999 */
+  }
+
+  /* .upvote-icon {
+    margin-right: 10px;
+  } */
+
   .rating::before {
     content: "rating";
   }
@@ -143,4 +159,6 @@
       padding-top: 70px;
       margin: 50px auto 30px;
     }
+
+
   }

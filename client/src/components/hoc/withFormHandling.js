@@ -3,7 +3,6 @@ import authService from '../../services/authService';
 import request from '../../services/requestServices';
 import { toast } from 'react-toastify';
 
-
 const withFormHandling = (WrappedComponent, initialState, endpoint) => {
   return class extends Component {
     constructor(props) {
@@ -31,40 +30,47 @@ const withFormHandling = (WrappedComponent, initialState, endpoint) => {
       this.setState({
         [field]: value
       });
-      // console.log(this.state);
     }
 
     async handleSendFormData(event) {
       event.preventDefault();
-      let response = await request.post(this.endpoint, {}, this.state);
-
-      if (response.errors) {
-        let errors = response.errors.map(e => e.msg);
-        this.setState({
-          errors: errors
-        },() => (this.state.errors.map(e => toast.error(e))));
-      }
-      else {
-        // @TODO needs to be redone
-        if (this.endpoint.includes('register') || this.endpoint.includes('login')) {
-          let token = response.token;
-          let user = response.user;
-          authService.authenticate(token, user);
-          this.props.history.push('/');
+      try {
+        let response = await request.post(this.endpoint, this.state);
+        if (response.errors && response.errors.length && response.errors[0].msg) {
+          let errors = response.errors.map(e => e.msg);
+          this.setState({
+            errors: errors
+          },() => (this.state.errors.map(e => toast.error(e))));
         }
         else {
-          this.props.history.push('/');
+          // @TODO needs to be redone
+          if (this.endpoint.includes('register') || this.endpoint.includes('login')) {
+            let token = response.token;
+            let user = response.user;
+            authService.authenticate(token, user);
+            this.props.history.push('/');
+          }
+          else if (this.endpoint.includes('records')) {
+            this.props.history.push('/records');
+          }
+          else {
+            this.props.history.push('/');
+          }
         }
+      } catch (error) {
+        toast.error('Oh, Something went horribly wrong!');
       }
     }
 
     render() {
-      return <WrappedComponent
+      return (
+      <WrappedComponent
         formState={this.state}
         handleInputChange={this.handleInputChange}
         handleSendFormData={this.handleSendFormData}
         handleSelectChange={this.handleSelectChange}
-      />;
+      />
+      );
     }
   }
 }

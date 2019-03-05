@@ -8,7 +8,7 @@ class authServices {
     if (user) {
       localStorage.setItem('userId', user.id);
       localStorage.setItem('username', user.username);
-      if (user.role && user.roles.length ) {
+      if (user.roles && user.roles.length) {
         let role = user.roles.find(e => e.name === 'Admin');
         localStorage.setItem('role', role.name);
       }
@@ -24,6 +24,10 @@ class authServices {
 
   isAdmin() {
     return (localStorage.getItem('role') === 'Admin');
+  }
+
+  isOwner(userId) {
+    return (Number(localStorage.getItem('userId')) === userId)
   }
 
   requireAuth(nextState, replace) {

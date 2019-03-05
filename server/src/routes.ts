@@ -73,6 +73,11 @@ export default (app: any) => {
     recordsController.updateRecord
   );
 
+  app.delete('/records/:id',
+    jwtAuth,
+    recordsController.deleteRecord
+  );
+
   // artists
   app.get('/artists',
     jwtAuth,

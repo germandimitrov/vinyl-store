@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Error from '../Error';
 import request from '../../services/requestServices';
 import Loader from 'react-loader-spinner';
 import ArtistsSelect from '../forms/ArtistSelect';
@@ -21,8 +20,22 @@ class RecordForm extends Component {
 
     return (
       <div className="container">
-        <ArtistsSelect artists={this.state.artists} handleSelectChange={this.props.handleSelectChange} />
+        {/* <ArtistsSelect artists={this.state.artists} handleSelectChange={this.props.handleSelectChange} /> */}
         <form method="POST" onSubmit={this.props.handleSendFormData}>
+        <div className="control-group">
+            <div className="form-group floating-label-form-group controls mb-0 pb-2">
+              <label htmlFor="artistNameId">Artists Name</label>
+              <input
+                type="text"
+                name="artistName"
+                className="form-control"
+                id="artistNameId"
+                onChange={this.props.handleInputChange}
+                placeholder="Artists Name"
+                value={this.props.artistName}
+              />
+            </div>
+          </div>
           <div className="control-group">
             <div className="form-group floating-label-form-group controls mb-0 pb-2">
               <label htmlFor="recordNameId">Name</label>
@@ -32,7 +45,7 @@ class RecordForm extends Component {
                 className="form-control"
                 id="recordNameId"
                 onChange={this.props.handleInputChange}
-                placeholder="Name"
+                placeholder="Record Name"
                 value={this.props.name}
               />
             </div>
@@ -75,7 +88,7 @@ class RecordForm extends Component {
                 placeholder="Description"
                 onChange={this.props.handleInputChange}
                 value={this.props.description}
-                rows="3"></textarea>
+                rows="2"></textarea>
             </div>
           </div>
           <br />

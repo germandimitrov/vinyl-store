@@ -144,7 +144,6 @@ const RegisterBase = (props) => {
       <br />
       {/* { props.formState.errors ? props.formState.errors.map((e, i) => <Error key={i} error={e}/> ) : ''} */}
     </div>
-    <Footer />
     </>
   );
 

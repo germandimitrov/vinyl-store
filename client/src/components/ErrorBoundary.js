@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -13,17 +13,13 @@ class ErrorBoundary extends React.Component {
 
   componentDidCatch(error, info) {
     // Display fallback UI
-    console.log('componentDitCatch');
     this.setState({ hasError: true });
-    // You can also log the error to an error reporting service
-    // logErrorToMyService(error, info);
   }
 
   render() {
-    console.log(this.state);
     if (this.state.hasError) {
       // You can render any custom fallback UI
-      return <h1>Something went wrong.</h1>;
+      return <h1>Sorry, Something went wrong.</h1>;
     }
     return this.props.children;
   }

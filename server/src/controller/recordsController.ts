@@ -19,15 +19,13 @@ class recordsController {
 
   async getRecords(req: Request, res: Response, next: NextFunction) {
     try {
-      const records = await getRepository(Record).find({
-        // where: {
-        //   user: req.user
-        // },
-        relations: ['user'],
-        order: {
-          id: "DESC"
-        }
-      });
+      const records = await getRepository(Record)
+        .createQueryBuilder('records')
+        .leftJoinAndSelect('records.user', 'users')
+        .where('users.active = :active', { active: true })
+        .orderBy('records.id', 'DESC')
+        .getMany();
+
       return res.status(200).json(records);
     } catch (error) {
       next(error);

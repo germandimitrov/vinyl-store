@@ -8,7 +8,10 @@ import validate from './middleware/validate';
 export default (app: any) => {
 
   // user
-  app.get('/', usersController.getUsers);
+  app.get('/',
+    jwtAuth,
+    usersController.getUsers
+  );
 
   app.post('/register',
     validationCheck.register,
@@ -16,7 +19,8 @@ export default (app: any) => {
     usersController.register
   );
 
-  app.get('/user/:id',
+  app.get('/users/:id',
+    jwtAuth,
     usersController.getProfile
   );
 
@@ -26,14 +30,21 @@ export default (app: any) => {
     usersController.login
   );
 
-  app.post('/user/rate',
+  app.post('/users/rate',
     jwtAuth,
     validationCheck.rate,
     validate,
     usersController.rate
   );
 
-  app.get('/user/vote/:raterId/:ratedId',
+  app.put('/users/:id',
+    jwtAuth,
+    validationCheck.updateUser,
+    validate,
+    usersController.updateUser
+  );
+
+  app.get('/users/vote/:raterId/:ratedId',
     jwtAuth,
     usersController.getVote
   );
@@ -43,7 +54,7 @@ export default (app: any) => {
     usersController.getActiveUsers
   );
 
-  app.get('/user/:id/changestatus',
+  app.put('/users/:id/changestatus',
     jwtAuth,
     usersController.changeUserStatus
   );

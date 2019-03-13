@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import Link from 'react';
-import request from '../../services/requestServices';
+import { Link } from 'react-router-dom';
+import request from '../../services/requestService';
 import Heading from '../fragments/Heading';
 
 class Details extends Component {
@@ -9,7 +9,6 @@ class Details extends Component {
 
     this.recordId = this.props.match.params.id;
     this.state = {
-      label: 'Show Phone',
       showPhone: false
     }
     this.showPhone = this.showPhone.bind(this);
@@ -17,23 +16,18 @@ class Details extends Component {
 
   async componentDidMount() {
     try {
-      const record = await request.get('records/' + this.recordId)
-      console.log(record);
-
+      const record = await request.get('records/' + this.recordId);
       this.setState({
         ...record
-      })
+      });
     } catch (error) {
-
+      console.log(error);
     }
   }
 
   showPhone() {
-    this.setState((prevState, props ) => {
-      return {
-        showPhone: prevState.showPhone ? false : true ,
-        label: prevState.label.includes('Show Phone') ? 'Hide Phone' : 'Show Phone',
-      }
+    this.setState( {
+      showPhone: ! this.state.showPhone,
     });
   }
 
@@ -42,6 +36,8 @@ class Details extends Component {
     if (!this.state.name && !this.state.user) {
       return (null);
     }
+
+    let phoneLen = this.state.user.phone.toString().length;
 
     return (
       <div className="container">
@@ -53,13 +49,13 @@ class Details extends Component {
           <div className="col-lg-5 details">
             <h1 className="font-weight-light">{this.state.artistName} - {this.state.name}</h1>
             <p>{this.state.description}</p>
-            <p>Offered by: {this.state.user.username} </p>
+            <p> Offered by: <Link to={'/user/' + this.state.user.id }> {this.state.user.username} </Link> </p>
             <button
               onClick={this.showPhone}
               className="btn-xs btn-primary"
-              to="/"> {this.state.label}
+              > {this.state.showPhone ? 'Hide Phone' : 'Show Phone'}
             </button>
-            <div className="show-phone" > Contact Details: {this.state.showPhone ? this.state.user.phone : 'xxx'}</div>
+            <div className="show-phone"> Contact Details: {this.state.showPhone ? this.state.user.phone : 'X'.repeat(phoneLen) }</div>
           </div>
         </div>
       </div>

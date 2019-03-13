@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import '../../index.css';
-import request from '../../services/requestServices';
+import request from '../../services/requestService';
 import AdminListRow from './AdminListRow'
 
 class AdminList extends Component {
@@ -9,10 +9,9 @@ class AdminList extends Component {
 
     this.state = {
       users: [],
-      refreshRow: false
     }
 
-    this.refreshRow = this.refreshRow.bind(this);
+    this.changeStatus = this.changeStatus.bind(this);
   }
 
   async componentDidMount() {
@@ -26,15 +25,31 @@ class AdminList extends Component {
     }
   }
 
-  refreshRow(refresh) {
-    this.setState({
-      refreshRow:refresh
-    })
+  async changeStatus(userId, status) {
+    try {
+      let { user } = await request.put(`users/${userId}/changestatus`, {
+        activeStatus: status
+      });
+
+      let index = this.state.users.findIndex((u) => u.id === userId);
+
+      const users = [...this.state.users];
+      users[index] = user;
+
+      this.setState({
+        users
+      });
+
+
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   render() {
+
     if (!this.state.users.length) {
-      return <div>No users</div>;
+      return <div>Loading</div>;
     }
 
     return (
@@ -57,7 +72,7 @@ class AdminList extends Component {
                 <AdminListRow
                   user={user}
                   key={user.id}
-                  refreshRow={this.refreshRow}
+                  changeStatus={this.changeStatus}
                 />
               ))
             }

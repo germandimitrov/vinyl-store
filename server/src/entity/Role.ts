@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, BaseEntity, Column, JoinTable, ManyToMany, ManyToOne, CreateDateColumn, UpdateDateColumn } from "typeorm";
 import { User } from "./User";
 
-export enum Name {
+export enum roleName {
   Admin = 'Admin',
   User = 'User'
 }
@@ -14,7 +14,7 @@ export class Role extends BaseEntity {
   id: number;
 
   @Column({type: 'varchar'})
-  name: Name
+  name: roleName
 
   @ManyToOne(type => User, user => user.roles )
   user: User

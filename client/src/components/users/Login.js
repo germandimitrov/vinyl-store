@@ -1,5 +1,4 @@
 import React from 'react';
-import Error from '../Error';
 import withFormHandling from '../hoc/withFormHandling';
 import '../../index.css';
 import Heading from '../fragments/Heading';
@@ -20,7 +19,7 @@ const LoginBase = (props) => {
                 className="form-control"
                 id="exampleInputEmail1"
                 placeholder="Username"
-                value={props.formState.email}
+                value={props.email}
                 onChange={props.handleInputChange}
               />
             <small id="emailHelp" name="email" className="form-text text-muted"></small>
@@ -35,7 +34,7 @@ const LoginBase = (props) => {
                 className="form-control"
                 id="exampleInputPassword1"
                 placeholder="Password"
-                value={props.formState.password}
+                value={props.password}
                 onChange={props.handleInputChange}
               />
           </div>
@@ -43,7 +42,6 @@ const LoginBase = (props) => {
         <br />
         <button type="submit" className="btn btn-primary btn-xl">Submit</button>
         </form>
-        {/* { props.formState.errors ? props.formState.errors.map((e, i) => <Error key={i} error={e}/> ) : ''} */}
       </div>
       <br />
     </>
@@ -51,10 +49,6 @@ const LoginBase = (props) => {
 
 }
 
-const Login = withFormHandling(LoginBase, {
-  password: '',
-  email: '',
-  errors: null
-}, 'login');
+const Login = withFormHandling(LoginBase, {password: '', email: ''}, 'login');
 
 export default Login;

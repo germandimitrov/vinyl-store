@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import authService from '../../services/authService';
-import request from '../../services/requestServices';
+import request from '../../services/requestService';
 import { toast } from 'react-toastify';
 
 const withFormHandling = (WrappedComponent, initialState, endpoint) => {
@@ -15,13 +15,6 @@ const withFormHandling = (WrappedComponent, initialState, endpoint) => {
 
       this.handleInputChange = this.handleInputChange.bind(this);
       this.handleSendFormData = this.handleSendFormData.bind(this);
-      this.handleSelectChange = this.handleSelectChange.bind(this);
-    }
-
-    handleSelectChange(selectionArray) {
-      this.setState({
-        artists: selectionArray
-      })
     }
 
     handleInputChange(event) {
@@ -48,9 +41,10 @@ const withFormHandling = (WrappedComponent, initialState, endpoint) => {
             let token = response.token;
             let user = response.user;
             authService.authenticate(token, user);
-            this.props.history.push('/');
+            this.props.history.push('/records');
           }
           else if (this.endpoint.includes('records')) {
+            toast.success('New Record Has Been Added!');
             this.props.history.push('/records');
           }
           else {
@@ -65,10 +59,9 @@ const withFormHandling = (WrappedComponent, initialState, endpoint) => {
     render() {
       return (
       <WrappedComponent
-        formState={this.state}
+        {...this.state}
         handleInputChange={this.handleInputChange}
         handleSendFormData={this.handleSendFormData}
-        handleSelectChange={this.handleSelectChange}
       />
       );
     }

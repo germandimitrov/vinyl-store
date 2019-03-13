@@ -1,6 +1,6 @@
-import authServices from './authService';
+import authService from './authService';
 
-class requestServices {
+class requestService {
   constructor() {
     this.domain = 'http://localhost:5001/';
     this.headers =  {
@@ -41,14 +41,15 @@ class requestServices {
         body: payload ? JSON.stringify(payload) : undefined
       });
 
-      // if (!rawResponse.ok) {
-      //   throw new Error('Something went wrong!');
-      // }
+      if (!rawResponse.ok) {
+        console.log(rawResponse);
+      }
 
       let response = await rawResponse.json();
 
       if (response.error && response.error.name.includes('TokenExpiredError')) {
-        authServices.clearSession();
+        authService.clearSession();
+        window.location.href = '/';
       }
 
       return response;
@@ -60,5 +61,5 @@ class requestServices {
   }
 }
 
-export default new requestServices();
+export default new requestService();
 

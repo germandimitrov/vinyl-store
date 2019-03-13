@@ -1,5 +1,4 @@
-import React, { Component } from 'react';
-import RecordsList from '../records/RecordList';
+import React from 'react';
 
 const Home = () => {
     return (

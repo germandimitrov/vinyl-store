@@ -13,13 +13,7 @@ export class User extends BaseEntity {
   @Column({default: null})
   username: string;
 
-  @Column({default: null})
-  firstName: string;
-
-  @Column({default: null})
-  lastName: string;
-
-  @Column({default: null})
+  @Column({default: null, unique: true})
   email: string;
 
   @Column({default: null})

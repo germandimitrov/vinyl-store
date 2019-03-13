@@ -7,7 +7,7 @@ import routes from "./routes";
 import * as cors from "cors";
 import * as passport from 'passport';
 import { User } from './entity/User';
-import { Role, Name } from './entity/Role';
+import { Role, roleName } from './entity/Role';
 import encrypt from './config/encryption';
 
 createConnection().then(async connection => {
@@ -49,7 +49,7 @@ createConnection().then(async connection => {
 
       user.save().then((user) => {
         const role = new Role();
-        role.name = Name.Admin;
+        role.name = roleName.Admin;
         role.user = user;
         role.save().then(r => console.log('admin created!'))
       });
@@ -58,11 +58,8 @@ createConnection().then(async connection => {
 
   app.use((error, req, res, next) => {
     const status = error.statusCode || 500;
-    const message = 'this is from general error!';
     res.status(status).json({
-      message: error.message,
-      // temp
-      from: message
+      errors: [{ msg: error.message }]
     });
     next();
   })

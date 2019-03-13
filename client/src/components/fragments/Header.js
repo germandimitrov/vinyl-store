@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import authService from '../../services/authService';
 
 const Header = () =>  {
   const isAuth = authService.isAuth();
   const isAdmin = authService.isAdmin();
-  const username = authService.getUsername();
+  const username = authService.get('username');
 
   return (
     <>
@@ -41,10 +41,6 @@ const Header = () =>  {
                     <li className="nav-item mx-0 mx-lg-1">
                       <NavLink className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" to="/records">Buy Records</NavLink>
                     </li>
-                    {/* <li className="nav-item mx-0 mx-lg-1">
-                      <NavLink className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" to="/artist/create">Add Artist</NavLink>
-                    </li> */}
-
                     <li className="nav-item mx-0 mx-lg-1">
                       <NavLink className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" exact to="/user">{username}</NavLink>
                     </li>

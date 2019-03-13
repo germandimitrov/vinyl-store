@@ -206,7 +206,7 @@
   /* LOGO */
   header.masthead {
     padding-top: calc(6rem);
-    padding-bottom: 6rem;
+    padding-bottom: 20%;
   }
 
   header.masthead h1 {
@@ -223,7 +223,7 @@
   @media (min-width: 992px) {
     header.masthead {
       padding-top: calc(2rem);
-      padding-bottom: 6rem;
+      padding-bottom: 20%;
     }
     header.masthead h1 {
       font-size: 4.75em;

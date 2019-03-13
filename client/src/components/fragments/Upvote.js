@@ -1,88 +1,34 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faThumbsDown, faThumbsUp } from '@fortawesome/free-solid-svg-icons';
-import request from '../../services/requestServices';
-import authService from '../../services/authService';
-import { toast } from 'react-toastify';
 
-class Upvote extends Component {
+const rateUp = 1;
+const rateDown = -1;
 
-  constructor(props) {
-    super(props);
-    this.changeRate = this.changeRate.bind(this);
+const changeRate = (rate, props) => {
+  props.changeRate(rate);
+}
 
-    this.state = {
-      rating: null,
-      rateChanged: false
-    }
-  }
-
-  async componentDidMount() {
-    this.setState({
-      rating: this.props.rating
-    })
-  }
-
-  async changeRate(raiseUp) {
-    if (!this.state.rateChanged) {
-      try {
-        let response = await this.checkVote(this.props.userId);
-        if (response.errors && response.errors.length) {
-          response.errors.forEach(e => (toast.error('You cannot rate the same user twice!')));
-          return;
-        }
-      } catch (error) {
-        console.log(error);
-      }
-      let value = 0;
-      raiseUp ? value += 1 : value -= 1;
-      this.setState({
-        rating: this.state.rating + value,
-        rateChanged: true,
-      }, async () => {
-          try {
-            await this.updateRating(this.props.userId, this.state.rating);
-            toast.success('Your vote was cast!');
-          } catch (error) {
-            console.log(error);
-          }
-      })
-    } else {
-      toast.error('You cannot rate the same user!');
-    }
-  }
-
-  async checkVote(userId) {
-    let rater = authService.getUserId();
-    let rated = userId;
-    try {
-      return await request.get(`user/vote/${rater}/${rated}`);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  async updateRating(userId, newRating) {
-    try {
-      return await request.post('user/rate', {
-        rater: authService.getUserId(),
-        rated: userId,
-        rating: newRating
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  render() {
-    return (
-      <>
-        <span className="upvote-icon" onClick={() => { this.changeRate(true) } }> <FontAwesomeIcon icon={faThumbsUp} size="2x" color="#55BD9C"/> </span>
-        <span className="rating-number"> {this.state.rating} </span>
-        <span onClick={() => { this.changeRate(false)  } } > <FontAwesomeIcon icon={faThumbsDown} size="2x" color="#DD725F"/> </span>
-      </>
-    );
-  }
+const Upvote = (props) => {
+  return (
+    <>
+      <span onClick={() => {changeRate(rateUp, props)}}>
+        <FontAwesomeIcon
+          icon={faThumbsUp}
+          size="2x"
+          color="#55BD9C"
+        />
+      </span>
+      <span className="rating-number"> {props.rating} </span>
+      <span onClick={() => {changeRate(rateDown, props)}}>
+        <FontAwesomeIcon
+          icon={faThumbsDown}
+          size="2x"
+          color="#DD725F"
+        />
+      </span>
+    </>
+  );
 }
 
 export default Upvote;

@@ -159,6 +159,13 @@
       padding-top: 70px;
       margin: 50px auto 30px;
     }
+  }
 
-
+  .edit-profile-btn {
+    float: right;
+    margin-left: 800px;
+    position: relative;
+    z-index: 2;
+    margin-right: 36px;
+    margin-top: -60px;
   }

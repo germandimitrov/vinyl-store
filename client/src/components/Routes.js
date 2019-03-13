@@ -9,8 +9,9 @@ import Logout from '../components/users/Logout';
 import AddRecord from './records/AddRecord';
 import EditRecord from './records/EditRecord';
 import Profile from '../components/users/Profile';
+import ProfileEdit  from '../components/users/ProfileEdit';
 import AdminList from '../components/admin/AdminList';
-import Details from '../components/records/Details';
+import RecordDetails from './records/RecordDetails';
 
 const Routes = () => {
 
@@ -29,9 +30,17 @@ const Routes = () => {
       {/* Private Routes */}
       <Route exact path='/records' render={(props) =>
         isAuth ? <RecordList {...props} loadRecords={true} /> : <Redirect to={path} />
+      } />
+
+      <Route exact path='/user' key="profile" render={(props) =>
+        isAuth ? <Profile {...props} /> : <Redirect to={path} />
       }/>
 
-      <Route path='/user/:id?' render={(props) =>
+      <Route exact path='/user/:id/edit' key="user-edit" render={(props) =>
+        authService.isOwner(props.match.params.id) ? <ProfileEdit {...props} /> : <Redirect to={'/'} />
+      }/>
+
+      <Route exact path='/user/:id?' key="user" render={(props) =>
         isAuth ? <Profile {...props} /> : <Redirect to={path} />
       }/>
 
@@ -39,13 +48,12 @@ const Routes = () => {
         isAuth ? <AddRecord {...props} /> : <Redirect to={path} />
       }/>
 
-
       <Route exact path='/records/:id' render={(props) =>
         isAuth ? <EditRecord {...props} /> : <Redirect to={path} />
       }/>
 
       <Route exact path='/records/:id/details' render={(props) =>
-        isAuth ? <Details {...props} /> : <Redirect to={path} />
+        isAuth ? <RecordDetails {...props} /> : <Redirect to={path} />
       }/>
 
       {/* Admin */}

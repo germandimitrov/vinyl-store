@@ -1,5 +1,5 @@
 
-class authServices {
+class authService {
 
   authenticate(token, user) {
     user = user || null;
@@ -7,10 +7,13 @@ class authServices {
 
     if (user) {
       localStorage.setItem('userId', user.id);
+      localStorage.setItem('user', JSON.stringify(user));
       localStorage.setItem('username', user.username);
       if (user.roles && user.roles.length) {
         let role = user.roles.find(e => e.name === 'Admin');
-        localStorage.setItem('role', role.name);
+        if (role) {
+          localStorage.setItem('role', role.name);
+        }
       }
     }
   }
@@ -27,7 +30,7 @@ class authServices {
   }
 
   isOwner(userId) {
-    return (Number(localStorage.getItem('userId')) === userId)
+    return (Number(localStorage.getItem('userId')) === Number(userId))
   }
 
   requireAuth(nextState, replace) {
@@ -54,6 +57,28 @@ class authServices {
     return localStorage.getItem('username')
   }
 
+  setUser(user) {
+    if (localStorage.getItem('user')) {
+      localStorage.removeItem('user');
+      localStorage.setItem('user', JSON.stringify(user));
+    }
+  }
+
+  getUser() {
+    return JSON.parse(localStorage.getItem('user'));
+  }
+
+  get(property) {
+    let user = JSON.parse(localStorage.getItem('user'));
+
+    if (user && user.hasOwnProperty(property)) {
+      return user[property];
+    }
+    else {
+      return null;
+    }
+  }
+
 }
 
-export default new authServices();
+export default new authService();

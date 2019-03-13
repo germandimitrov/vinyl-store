@@ -1,19 +1,19 @@
-import React, { Component } from 'react';
+import React from 'react';
 import ChangeStatusButton from './ChangeStatusButton';
 
-const AdminListRow = (props) =>  {
+const AdminListRow = ({ user, changeStatus }) =>  {
   return (
     <tr>
-      <th scope="row">{props.user.id}</th>
-      <td>{props.user.username}</td>
-      <td>{props.user.email}</td>
-      <td>{props.user.address}</td>
-      <td>{props.user.phone}</td>
-      <td>{props.user.rating}</td>
+      <th scope="row">{user.id}</th>
+      <td>{user.username}</td>
+      <td>{user.email}</td>
+      <td>{user.address}</td>
+      <td>{user.phone}</td>
+      <td>{user.rating}</td>
       <td>
         {
-          props.user.rating < 2 ?
-            <ChangeStatusButton userId={props.user.id} status={props.user.active} />
+          user.rating === 0 ?
+            <ChangeStatusButton userId={user.id} status={user.active} changeStatus={changeStatus} />
           : null
         }
       </td>

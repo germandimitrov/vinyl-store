@@ -444,3 +444,11 @@
   .details {
     margin-bottom: 100px;
   }
+
+  .loading {
+    margin-top: 20%;
+  }
+
+  .loading-text {
+    margin-left: 2%;
+  }

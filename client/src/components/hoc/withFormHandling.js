@@ -58,11 +58,11 @@ const withFormHandling = (WrappedComponent, initialState, endpoint) => {
 
     render() {
       return (
-      <WrappedComponent
-        {...this.state}
-        handleInputChange={this.handleInputChange}
-        handleSendFormData={this.handleSendFormData}
-      />
+        <WrappedComponent
+          {...this.state}
+          handleInputChange={this.handleInputChange}
+          handleSendFormData={this.handleSendFormData}
+        />
       );
     }
   }

@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import '../../index.css';
 import request from '../../services/requestService';
 import AdminListRow from './AdminListRow'
+import Heading from '../fragments/Heading';
+import Loading from '../fragments/Loading';
 
 class AdminList extends Component {
   constructor(props) {
@@ -49,11 +51,12 @@ class AdminList extends Component {
   render() {
 
     if (!this.state.users.length) {
-      return <div>Loading</div>;
+      return <Loading />
     }
 
     return (
       <div className="container">
+        <Heading heading="Users" />
         <table className="table table-striped">
           <thead>
             <tr>

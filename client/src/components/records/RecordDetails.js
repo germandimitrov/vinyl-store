@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import request from '../../services/requestService';
 import Heading from '../fragments/Heading';
+import Loading from '../fragments/Loading';
 
 class Details extends Component {
   constructor(props) {
@@ -34,7 +35,7 @@ class Details extends Component {
   render() {
 
     if (!this.state.name && !this.state.user) {
-      return (null);
+      return <Loading />
     }
 
     let phoneLen = this.state.user.phone.toString().length;

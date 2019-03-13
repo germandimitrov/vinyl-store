@@ -7,6 +7,7 @@ import RecordCard from '../records/RecordCard';
 import Heading from '../fragments/Heading';
 import { toast } from 'react-toastify';
 import './Profile.css';
+import Loading from '../fragments/Loading';
 
 
 class Profile extends Component {
@@ -103,7 +104,7 @@ class Profile extends Component {
 
   render() {
     if (!this.state.loaded) {
-      return null;
+      return <Loading />
     }
 
     return (

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import request from '../../services/requestService';
-import Loader from 'react-loader-spinner';
 import RecordCard from './RecordCard';
 import Heading from '../fragments/Heading';
 import { toast } from 'react-toastify';
+import Loading from '../fragments/Loading';
 
 class RecordsList extends Component {
 
@@ -18,9 +18,11 @@ class RecordsList extends Component {
   async componentDidMount() {
     try {
       const records = await request.get('records');
-      this.setState({
-        records
-      });
+      // setTimeout(() => {
+        this.setState({
+          records
+        });
+      // }, 1000)
     } catch (error) {
       console.log(error);
     }
@@ -36,24 +38,24 @@ class RecordsList extends Component {
   }
 
   render() {
-    if ( ! this.state.records) {
-      return <Loader type="Puff" color="#000000" height="25" width="25" />
+    if (!this.state.records.length) {
+      return <Loading />
     }
     return (
       <>
         <div className="container">
-        <Heading heading='Records'/>
-        <div className="row">
-          {this.state.records.map((record) => {
-            return <RecordCard
-              {...record}
-              userId={record.user.id}
-              username={record.user.username}
-              key={record.id}
-              isDeleted={this.isDeleted}
-              recordCardFooter={true}
-            />
-          })}
+          <Heading heading='Records'/>
+          <div className="row">
+            {this.state.records.map((record) => {
+              return <RecordCard
+                {...record}
+                userId={record.user.id}
+                username={record.user.username}
+                key={record.id}
+                isDeleted={this.isDeleted}
+                recordCardFooter={true}
+              />
+            })}
           </div>
         </div>
       </>

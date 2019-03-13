@@ -11,6 +11,7 @@ class RecordsList extends Component {
     super(props)
     this.state = {
       records: [],
+      loaded: false,
     };
     this.isDeleted = this.isDeleted.bind(this);
   }
@@ -18,11 +19,10 @@ class RecordsList extends Component {
   async componentDidMount() {
     try {
       const records = await request.get('records');
-      // setTimeout(() => {
         this.setState({
-          records
+          records,
+          loaded: true
         });
-      // }, 1000)
     } catch (error) {
       console.log(error);
     }
@@ -38,7 +38,7 @@ class RecordsList extends Component {
   }
 
   render() {
-    if (!this.state.records.length) {
+    if (!this.state.loaded) {
       return <Loading />
     }
     return (

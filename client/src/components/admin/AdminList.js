@@ -42,7 +42,6 @@ class AdminList extends Component {
         users
       });
 
-
     } catch (error) {
       console.log(error);
     }

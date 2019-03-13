@@ -75,13 +75,13 @@ class usersController {
 
     if (!user) {
       return res.status(404).json({
-        errors: [{ msg: 'User Not Found.' }]
+        errors: [{ msg: 'Invalid Username or Password.' }]
       });
     }
 
     if (!this.validatePassword(user, req.body.password)) {
       return res.status(404).json({
-        errors: [{ msg: 'Invalid Password.' }]
+        errors: [{ msg: 'Invalid Username or Password.' }]
       });
     }
 

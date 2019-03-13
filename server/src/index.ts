@@ -20,7 +20,7 @@ createConnection().then(async connection => {
   const port = 5001;
 
   const corsOptions = {
-    origin: `http://localhost:3001`,
+    origin: `http://localhost:3000`,
     optionsSuccessStatus: 200
   }
 
@@ -42,6 +42,7 @@ createConnection().then(async connection => {
       user.email = 'admin@admin.bg';
       user.address = 'mladost';
       user.phone = 112;
+      user.active = true;
       // temp
       user.picture = 'https://secure.gravatar.com/avatar/e4dcf6591693d348343f84c9ab65dfcf?s=100&r=g&d=mm'
       user.salt = encrypt.generateSalt();

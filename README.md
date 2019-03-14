@@ -3,7 +3,7 @@
 ~~~~
   cd client
   npm i
-  nom start
+  npm start
   cd server
   npm i
   run your MySql Server
@@ -15,7 +15,7 @@
 ## General Usage:
 
 Users can login and browse other users vinyl record collection.
-They view can view the other users contact information in order to contact them and buy a record. They can also rate other users.
+They can view the other users contact information in order to contact them and buy a record. They can also rate other users.
 Logged users can create/update/delete their records for sale.
 They can update their profile information.
 

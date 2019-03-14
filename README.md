@@ -1,6 +1,5 @@
 # Vinyl Store
 ## Installation
-- - - -
 ~~~~
   cd client
   npm i
@@ -14,14 +13,14 @@
 ~~~~
 
 ## General Usage:
-- - - -
+
 Users can login and browse other users vinyl record collection.
 They view can view the other users contact information in order to contact them and buy a record. They can also rate other users.
 Logged users can create/update/delete their records for sale.
 They can update their profile information.
 
 ## Users Can:
-- - - -
+
 - Register
 - Login
 - Create/Read/Update/Delete Record Their Own Records
@@ -32,7 +31,6 @@ They can update their profile information.
 - Logout
 
 ## Admin Can:
-- - - -
 - All The Above plus:
 - Create/Read/Update/Delete Records On Any User
 - Activate/Deactivate users with low rating

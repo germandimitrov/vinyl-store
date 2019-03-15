@@ -44,7 +44,9 @@ const withFormHandlingEdit = (WrappedComponent, initialState, endpoint, redirect
           let user = response;
           authService.setUser(user);
         }
-        this.props.history.push('/' + redirect);
+        this.setState({
+          ...response
+        }, () => this.props.history.push('/' + redirect));
       }
     }
 

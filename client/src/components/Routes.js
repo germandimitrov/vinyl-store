@@ -12,6 +12,7 @@ import Profile from '../components/users/Profile';
 import ProfileEdit  from '../components/users/ProfileEdit';
 import AdminList from '../components/admin/AdminList';
 import RecordDetails from './records/RecordDetails';
+import NotFound from './NotFound';
 
 const Routes = () => {
 
@@ -61,7 +62,7 @@ const Routes = () => {
         isAdmin ? <AdminList /> : <Redirect to='/' />
       }/>
 
-      <Route component={() => (<div> Page not found </div>)} />
+      <Route component={() => <NotFound /> } />
     </Switch>
   </React.Fragment>
 };
